@@ -69,14 +69,19 @@ class KiwiOptions:
 
 
 class RingBuffer():
-    def __init__(self, size=12001):
+    """Controls communication between receiving and processing thread.
 
+    It is assumed that only one processing thread exists.
+    """
+
+    def __init__(self, size=12001):
         self.buffer = np.zeros(size)
         self.access = Lock()
-        self.updated = Semaphore()
+        self.updated = Event()
 
     def read(self):
-        self.updated.acquire()
+        self.updated.wait()
+        self.updated.clear()
         with self.access:
             data = self.buffer.copy()
         return data
@@ -91,7 +96,7 @@ class RingBuffer():
                 shift = data_size
                 self.buffer[:buffer_size-shift] = self.buffer[shift:]
                 self.buffer[buffer_size-shift:] = data
-        self.updated.release()
+        self.updated.set()
 
 
 def _record(buffer: Optional[RingBuffer] = None, stop_event=None, **kwargs):
