@@ -1,9 +1,11 @@
 import os
 import time
+import math
 import numpy as np
 from kiwiclient.kiwirecorder import KiwiSoundRecorder
 from kiwiclient.kiwi.client import KiwiTooBusyError, KiwiTimeLimitError, KiwiServerTerminatedConnection
-import threading
+from threading import Thread, Event, Lock, Semaphore
+from typing import Optional, Callable
 
 
 class KiwiRecorder(KiwiSoundRecorder):
@@ -57,7 +59,7 @@ class KiwiOptions:
                    "ADC_OV": False,
                    "raw": False,
                    "quiet": False,
-                   "thresh":None}
+                   "thresh": None}
         if not all([key in options for key in kwargs.keys()]):
             raise ValueError("Unknown parameters")
 
@@ -66,13 +68,38 @@ class KiwiOptions:
             setattr(self, key, value)
 
 
-def record(**kwargs):
-    options = KiwiOptions(**kwargs)
+class RingBuffer():
+    def __init__(self, size=12001):
 
+        self.buffer = np.zeros(size)
+        self.access = Lock()
+        self.updated = Semaphore()
+
+    def read(self):
+        self.updated.acquire()
+        with self.access:
+            data = self.buffer.copy()
+        return data
+
+    def write(self, data):
+        with self.access:
+            data_size = len(data)
+            buffer_size = len(self.buffer)
+            if data_size >= buffer_size:
+                self.buffer = data[data_size-buffer_size:]
+            else:
+                shift = data_size
+                self.buffer[:buffer_size-shift] = self.buffer[shift:]
+                self.buffer[buffer_size-shift:] = data
+        self.updated.release()
+
+
+def _record(buffer: Optional[RingBuffer] = None, stop_event=None, **kwargs):
+    options = KiwiOptions(**kwargs)
     recorder = KiwiRecorder(options)
     recorder._reader = True
     connect_count = options.connect_retries
-    while True:  #run
+    while stop_event is None or not stop_event.is_set():  # run
         try:
             recorder.connect(options.server_host, options.server_port)
         except Exception as e:
@@ -86,9 +113,12 @@ def record(**kwargs):
 
         try:
             recorder.open()
-            while True:
+            while stop_event is None or not stop_event.is_set():
                 recorder.run()
-                if len(recorder.data)> 12001*options.tlimit:
+                if options.tlimit is None and buffer is not None:
+                    buffer.write(recorder.data)
+                    recorder.data = np.array([])
+                elif options.tlimit is not None and len(recorder.data) > 12001 * options.tlimit:
                     raise KiwiTimeLimitError('time limit reached')
         except KiwiServerTerminatedConnection as e:
             if options.no_api:
@@ -106,10 +136,41 @@ def record(**kwargs):
             continue
         except KiwiTimeLimitError:
             break
-        except Exception as e:
-            print(e)
-            break
 
     recorder.close()
-    return recorder.data[:options.tlimit*12001]
+    if options.tlimit is not None:
+        return recorder.data[:options.tlimit*12001]
+    else:
+        # return last received packet
+        return recorder.data
 
+
+def record_audio(**kwargs):
+    return _record(**kwargs)
+
+
+def stream_audio(process_data: Callable[[RingBuffer], None], buffer_size=12001, start_filled=True, **kwargs):
+    if "tlimit" not in kwargs:
+        kwargs["tlimit"] = None
+    buffer = RingBuffer(size=12001)
+    stop_event = Event()
+    recording_thread = Thread(target=_record,
+                              args=(buffer, stop_event),
+                              kwargs=kwargs)
+
+    fill_size = 2000  # number of samples returned by kiwi device
+
+    try:
+        recording_thread.start()
+        if start_filled:
+            # wait for buffer to fill
+            for _ in range(math.ceil(buffer_size/fill_size)):
+                buffer.read()
+
+        process_data(buffer)
+
+    except KeyboardInterrupt:
+        print("Keyboard interrupt caught, exiting.")
+    finally:
+        stop_event.set()
+        recording_thread.join()
