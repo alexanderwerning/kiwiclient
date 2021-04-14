@@ -157,7 +157,7 @@ def record_audio(**kwargs):
 def stream_audio(process_data: Callable[[RingBuffer], None], buffer_size=12001, start_filled=True, **kwargs):
     if "tlimit" not in kwargs:
         kwargs["tlimit"] = None
-    buffer = RingBuffer(size=12001)
+    buffer = RingBuffer(size=buffer_size)
     stop_event = Event()
     recording_thread = Thread(target=_record,
                               args=(buffer, stop_event),
