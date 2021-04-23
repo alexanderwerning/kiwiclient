@@ -41,7 +41,7 @@
 
 import socket
 
-from mod_pywebsocket import util
+from kiwiclient.mod_pywebsocket import util
 
 
 # Exceptions

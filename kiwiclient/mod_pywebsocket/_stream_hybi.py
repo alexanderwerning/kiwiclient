@@ -46,14 +46,14 @@ import sys
 if sys.version_info > (3,):
     buffer = memoryview
 
-from mod_pywebsocket import common
-from mod_pywebsocket import util
-from mod_pywebsocket._stream_base import BadOperationException
-from mod_pywebsocket._stream_base import ConnectionTerminatedException
-from mod_pywebsocket._stream_base import InvalidFrameException
-from mod_pywebsocket._stream_base import InvalidUTF8Exception
-from mod_pywebsocket._stream_base import StreamBase
-from mod_pywebsocket._stream_base import UnsupportedFrameException
+from kiwiclient.mod_pywebsocket import common
+from kiwiclient.mod_pywebsocket import util
+from kiwiclient.mod_pywebsocket._stream_base import BadOperationException
+from kiwiclient.mod_pywebsocket._stream_base import ConnectionTerminatedException
+from kiwiclient.mod_pywebsocket._stream_base import InvalidFrameException
+from kiwiclient.mod_pywebsocket._stream_base import InvalidUTF8Exception
+from kiwiclient.mod_pywebsocket._stream_base import StreamBase
+from kiwiclient.mod_pywebsocket._stream_base import UnsupportedFrameException
 
 
 _NOOP_MASKER = util.NoopMasker()

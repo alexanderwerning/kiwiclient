@@ -21,10 +21,10 @@ else:
         return str(b)
 
 import json
-import mod_pywebsocket.common
-from mod_pywebsocket._stream_base import ConnectionTerminatedException
-from mod_pywebsocket.stream import Stream, StreamOptions
-from .wsclient import ClientHandshakeProcessor, ClientRequest
+import kiwiclient.mod_pywebsocket.common as common
+from kiwiclient.mod_pywebsocket._stream_base import ConnectionTerminatedException
+from kiwiclient.mod_pywebsocket.stream import Stream, StreamOptions
+from kiwiclient.kiwi.wsclient import ClientHandshakeProcessor, ClientRequest
 
 #
 # IMAADPCM decoder
@@ -149,7 +149,7 @@ class KiwiSDRStreamBase(object):
         handshake.handshake(uri)
 
         request = ClientRequest(self._socket)
-        request.ws_version = mod_pywebsocket.common.VERSION_HYBI13
+        request.ws_version = common.VERSION_HYBI13
 
         stream_option = StreamOptions()
         stream_option.mask_send = True
@@ -512,7 +512,7 @@ class KiwiSDRStream(KiwiSDRStreamBase):
         try:
             ## STATUS_GOING_AWAY does not make the stream to wait for a reply for the WS close request
             ## this is used because close_connection expects the close response from the server immediately
-            self._stream.close_connection(mod_pywebsocket.common.STATUS_GOING_AWAY)
+            self._stream.close_connection(common.STATUS_GOING_AWAY)
             self._socket.close()
         except Exception as e:
             logging.error('websocket close: "%s"' % e)

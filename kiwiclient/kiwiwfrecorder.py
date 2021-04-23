@@ -6,7 +6,7 @@
 import gc, logging, os, time, threading, os
 import numpy as np
 from traceback import print_exc
-from kiwi import KiwiSDRStream, KiwiWorker
+from kiwiclient.kiwi import KiwiSDRStream, KiwiWorker
 from optparse import OptionParser
 try:
     from Queue import Queue,Empty  ## python2
