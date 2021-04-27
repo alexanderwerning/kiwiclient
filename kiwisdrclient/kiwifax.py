@@ -10,7 +10,7 @@ import cmath
 import traceback
 from optparse import OptionParser
 
-from kiwi import KiwiSDRStream, KiwiTooBusyError, KiwiBadPasswordError
+from kiwisdrclient.kiwi import KiwiSDRStream, KiwiTooBusyError, KiwiBadPasswordError
 
 import png
 

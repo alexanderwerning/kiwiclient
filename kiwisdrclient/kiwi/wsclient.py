@@ -8,12 +8,12 @@ import os
 import re
 import socket
 
-from kiwiclient.mod_pywebsocket import common
-from kiwiclient.mod_pywebsocket.extensions import DeflateFrameExtensionProcessor
-from kiwiclient.mod_pywebsocket.extensions import PerMessageDeflateExtensionProcessor
-from kiwiclient.mod_pywebsocket.extensions import _PerMessageDeflateFramer
-from kiwiclient.mod_pywebsocket.extensions import _parse_window_bits
-from kiwiclient.mod_pywebsocket import util
+from kiwisdrclient.mod_pywebsocket import common
+from kiwisdrclient.mod_pywebsocket.extensions import DeflateFrameExtensionProcessor
+from kiwisdrclient.mod_pywebsocket.extensions import PerMessageDeflateExtensionProcessor
+from kiwisdrclient.mod_pywebsocket.extensions import _PerMessageDeflateFramer
+from kiwisdrclient.mod_pywebsocket.extensions import _parse_window_bits
+from kiwisdrclient.mod_pywebsocket import util
 
 
 _TIMEOUT_SEC = 10

@@ -21,10 +21,10 @@ else:
         return str(b)
 
 import json
-import kiwiclient.mod_pywebsocket.common as common
-from kiwiclient.mod_pywebsocket._stream_base import ConnectionTerminatedException
-from kiwiclient.mod_pywebsocket.stream import Stream, StreamOptions
-from kiwiclient.kiwi.wsclient import ClientHandshakeProcessor, ClientRequest
+import kiwisdrclient.mod_pywebsocket.common as common
+from kiwisdrclient.mod_pywebsocket._stream_base import ConnectionTerminatedException
+from kiwisdrclient.mod_pywebsocket.stream import Stream, StreamOptions
+from kiwisdrclient.kiwi.wsclient import ClientHandshakeProcessor, ClientRequest
 
 #
 # IMAADPCM decoder

@@ -32,7 +32,7 @@
 """
 
 
-from kiwiclient.mod_pywebsocket import http_header_util
+from kiwisdrclient.mod_pywebsocket import http_header_util
 
 
 # Additional log level definitions.

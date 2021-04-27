@@ -28,9 +28,9 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-from kiwiclient.mod_pywebsocket import common
-from kiwiclient.mod_pywebsocket import util
-from kiwiclient.mod_pywebsocket.http_header_util import quote_if_necessary
+from kiwisdrclient.mod_pywebsocket import common
+from kiwisdrclient.mod_pywebsocket import util
+from kiwisdrclient.mod_pywebsocket.http_header_util import quote_if_necessary
 
 
 # The list of available server side extension processor classes.

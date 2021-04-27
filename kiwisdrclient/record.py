@@ -2,8 +2,8 @@ import os
 import time
 import math
 import numpy as np
-from kiwiclient.kiwirecorder import KiwiSoundRecorder
-from kiwiclient.kiwi.client import KiwiTooBusyError, KiwiTimeLimitError, KiwiServerTerminatedConnection
+from kiwisdrclient.kiwirecorder import KiwiSoundRecorder
+from kiwisdrclient.kiwi.client import KiwiTooBusyError, KiwiTimeLimitError, KiwiServerTerminatedConnection
 from threading import Thread, Event, Lock, Semaphore
 from typing import Optional, Callable
 

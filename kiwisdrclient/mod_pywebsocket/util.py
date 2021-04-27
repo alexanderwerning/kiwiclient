@@ -60,7 +60,7 @@ import traceback
 import zlib
 
 try:
-    from kiwiclient.mod_pywebsocket import fast_masking
+    from kiwisdrclient.mod_pywebsocket import fast_masking
 except ImportError:
     pass
 

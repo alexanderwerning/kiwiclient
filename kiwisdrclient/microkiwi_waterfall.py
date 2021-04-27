@@ -8,11 +8,11 @@ import struct
 import time
 from datetime import datetime
 
-from kiwi import wsclient
+from kiwisdrclient.kiwi import wsclient
 
-import mod_pywebsocket.common
-from mod_pywebsocket.stream import Stream
-from mod_pywebsocket.stream import StreamOptions
+import kiwisdrclient.mod_pywebsocket.common
+from kiwisdrclient.mod_pywebsocket.stream import Stream
+from kiwisdrclient.mod_pywebsocket.stream import StreamOptions
 
 from optparse import OptionParser
 

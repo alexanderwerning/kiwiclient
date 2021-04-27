@@ -7,7 +7,7 @@ import math
 import numpy as np
 from copy import copy
 from traceback import print_exc
-from kiwiclient.kiwi import KiwiSDRStream, KiwiWorker
+from kiwisdrclient.kiwi import KiwiSDRStream, KiwiWorker
 from optparse import OptionParser
 from optparse import OptionGroup
 
