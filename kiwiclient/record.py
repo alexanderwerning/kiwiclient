@@ -174,8 +174,10 @@ def stream_audio(process_data: Callable[[RingBuffer], None], buffer_size=12001, 
         recording_thread.start()
         if start_filled:
             # wait for buffer to fill
-            for _ in range(math.ceil(buffer_size/fill_size)):
-                buffer.read()
+            filled = 0
+            while filled < buffer_size:
+                _, new_samples = buffer.read()
+                filled += new_samples
 
         process_data(buffer)
 
