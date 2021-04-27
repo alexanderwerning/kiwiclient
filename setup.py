@@ -7,7 +7,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "numpy",
-        "threading"
+        "soundcard"
     ],
     python_requires=">=3.7",
 )
