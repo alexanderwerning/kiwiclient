@@ -3,7 +3,7 @@
 import setuptools
 
 setuptools.setup(
-    name="kiwiclient",
+    name="kiwisdrclient",
     packages=setuptools.find_packages(),
     install_requires=[
         "numpy",
