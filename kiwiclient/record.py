@@ -76,6 +76,7 @@ class RingBuffer():
 
     def __init__(self, size=12001):
         self.buffer = np.zeros(size)
+        self.new_samples = 0
         self.access = Lock()
         self.updated = Event()
 
@@ -84,7 +85,9 @@ class RingBuffer():
         self.updated.clear()
         with self.access:
             data = self.buffer.copy()
-        return data
+            new_samples = self.new_samples
+            self.new_samples = 0
+        return data, new_samples
 
     def write(self, data):
         with self.access:
@@ -92,10 +95,12 @@ class RingBuffer():
             buffer_size = len(self.buffer)
             if data_size >= buffer_size:
                 self.buffer = data[data_size-buffer_size:]
+                self.new_samples = buffer_size
             else:
                 shift = data_size
                 self.buffer[:buffer_size-shift] = self.buffer[shift:]
                 self.buffer[buffer_size-shift:] = data
+                self.new_samples = data_size
         self.updated.set()
 
 
