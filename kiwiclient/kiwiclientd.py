@@ -110,7 +110,8 @@ class KiwiSoundRecorder(KiwiSDRStream):
             sys.stdout.write('\rBlock: %08x, RSSI: %6.1f' % (seq, rssi))
             sys.stdout.flush()
 
-        if self._options.resample > 0:
+        if self._options.
+         > 0:
             if HAS_RESAMPLER:
                 ## libsamplerate resampling
                 if self._resampler is None:
