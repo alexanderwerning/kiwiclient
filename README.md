@@ -1,4 +1,4 @@
-# KiwiClient
+# KiwiSDRClient
 
 This is a Python client for KiwiSDR. It allows you to:
 
@@ -63,5 +63,9 @@ It provides the following methods which can be used in derived classes:
 * For using read_kiwi_wav an octave function `proc_kiwi_iq_wav.m` is provided; type `help proc_kiwi_iq_wav` in octave for documentation.
 
 # Changes in this fork
-* Added record.py, which returns recorded data in a numpy array without writing a file
-* Added a setup.py, so the package can be installed from the files
+* Added record.py:
+  - return recorded data segment in a numpy array without writing a file
+  - stream data and process it
+* Restructured the files to get an installable package
+  - Added a setup.py with dependencies
+  - Renamed the project from kiwiclient to kiwisdrclient, since kiwiclient already exists on PyPI
